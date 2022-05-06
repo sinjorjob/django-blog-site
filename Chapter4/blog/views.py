@@ -5,6 +5,8 @@ from .models import Blog, Category
 from . forms import BlogForm
 from django.urls import reverse_lazy
 from django.db.models import Q 
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 # Create your views here.
 def index(request):
@@ -34,7 +36,7 @@ class BlogListView(ListView):
         return context
 
     
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
 
     model = Blog
     form_class = BlogForm
@@ -65,7 +67,7 @@ class BlogDetailView(DetailView):
        return context
    
    
-class BlogEditView(UpdateView):
+class BlogEditView(LoginRequiredMixin, UpdateView):
 
     model = Blog
     form_class = BlogForm
@@ -86,7 +88,7 @@ def edit_done(request):
         'category_list': category_list })
     
     
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
 
     model = Blog
     template_name = 'blog/blog_confirm_delete.html'
